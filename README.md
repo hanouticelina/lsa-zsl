@@ -12,7 +12,7 @@ We propose a regularization method that can be applied to any conditional genera
 ## **Overall Architecture:** 
 
 <p align="center">
-  <img src = "readme_images/diagram_archi.png" width="800">
+  <img src = "artifacts/diagram_archi.png" width="800">
   <br/>
   <br/>
 </p>
