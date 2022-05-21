@@ -2,6 +2,7 @@ import os
 import random
 from datetime import datetime
 
+import loguru
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.optim as optim
@@ -20,17 +21,19 @@ log_name = (
 )
 if opt.manualSeed is None:
     opt.manualSeed = random.randint(1, 10000)
-print("Random Seed: ", opt.manualSeed)
+loguru.logger.info("Random Seed: ", opt.manualSeed)
 random.seed(opt.manualSeed)
 torch.manual_seed(opt.manualSeed)
 if opt.cuda:
     torch.cuda.manual_seed_all(opt.manualSeed)
 cudnn.benchmark = True
 if torch.cuda.is_available() and not opt.cuda:
-    print("WARNING: You have a CUDA device, so you should probably run with" " --cuda")
+    loguru.logger.info(
+        "WARNING: You have a CUDA device, so you should probably run with" " --cuda"
+    )
 # load data
 data = util.DATA_LOADER(opt)
-print("# of training samples: ", data.ntrain)
+loguru.logger.info("# of training samples: ", data.ntrain)
 logger = util.Logger(log_name)
 logger.write("Params : %s \n" % (vars(opt)))
 netG = model.Generator(opt)
@@ -39,8 +42,8 @@ netD2 = model.Discriminator_D2(opt)
 netE = model.Encoder(opt)
 cls = model.LinearClassifier(2048, opt.nclass_all)
 criterion = nn.CrossEntropyLoss()
-print(netG)
-print(netD)
+loguru.logger.info(netG)
+loguru.logger.info(netD)
 
 ###########
 # Init Tensors
@@ -335,7 +338,6 @@ for epoch in range(0, opt.nepoch):
     if best_zsl_acc < acc:
         best_zsl_acc = acc
         best_zsl_cls = zsl_cls.model.state_dict()
-    # print('ZSL: unseen accuracy=%.4f' % (acc))
     logger.write("ZSL: unseen accuracy=%.4f\n" % (acc))
     # reset G to training mode
     netG.train()

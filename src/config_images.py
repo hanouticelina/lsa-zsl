@@ -27,18 +27,12 @@ parser.add_argument("--standardization", action="store_true", default=False)
 parser.add_argument(
     "--workers", type=int, help="number of data loading workers", default=8
 )
-parser.add_argument(
-    "--batch_size", type=int, default=64, help="input batch size"
-)
-parser.add_argument(
-    "--resSize", type=int, default=2048, help="size of visual features"
-)
+parser.add_argument("--batch_size", type=int, default=64, help="input batch size")
+parser.add_argument("--resSize", type=int, default=2048, help="size of visual features")
 parser.add_argument(
     "--attSize", type=int, default=1024, help="size of semantic features"
 )
-parser.add_argument(
-    "--nz", type=int, default=312, help="size of the latent z vector"
-)
+parser.add_argument("--nz", type=int, default=312, help="size of the latent z vector")
 parser.add_argument(
     "--ngh",
     type=int,
@@ -87,9 +81,7 @@ parser.add_argument(
 parser.add_argument(
     "--alpha", type=float, default=0.3, help="beta1 for adam. default=0.5"
 )
-parser.add_argument(
-    "--cuda", action="store_true", default=False, help="enables cuda"
-)
+parser.add_argument("--cuda", action="store_true", default=False, help="enables cuda")
 parser.add_argument(
     "--encoded_noise",
     action="store_true",
@@ -97,9 +89,7 @@ parser.add_argument(
     help="enables validation mode",
 )
 parser.add_argument("--manualSeed", type=int, help="manual seed")
-parser.add_argument(
-    "--nclass_all", type=int, default=200, help="number of all classes"
-)
+parser.add_argument("--nclass_all", type=int, default=200, help="number of all classes")
 parser.add_argument(
     "--validation",
     action="store_true",
@@ -108,12 +98,8 @@ parser.add_argument(
 )
 parser.add_argument("--encoder_layer_sizes", type=list, default=[8192, 4096])
 parser.add_argument("--decoder_layer_sizes", type=list, default=[4096, 8192])
-parser.add_argument(
-    "--gammaD", type=int, default=1000, help="weight on the W-GAN loss"
-)
-parser.add_argument(
-    "--gammaG", type=int, default=1000, help="weight on the W-GAN loss"
-)
+parser.add_argument("--gammaD", type=int, default=1000, help="weight on the W-GAN loss")
+parser.add_argument("--gammaG", type=int, default=1000, help="weight on the W-GAN loss")
 parser.add_argument(
     "--gammaG_D2", type=int, default=1000, help="weight on the W-GAN loss"
 )

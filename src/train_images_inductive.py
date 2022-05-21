@@ -2,6 +2,7 @@ import os
 import random
 from datetime import datetime
 
+import loguru
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.optim as optim
@@ -20,20 +21,19 @@ log_name = (
 )
 if opt.manualSeed is None:
     opt.manualSeed = random.randint(1, 10000)
-print("Random Seed: ", opt.manualSeed)
+loguru.logger.info("Random Seed: ", opt.manualSeed)
 random.seed(opt.manualSeed)
 torch.manual_seed(opt.manualSeed)
 if opt.cuda:
     torch.cuda.manual_seed_all(opt.manualSeed)
 cudnn.benchmark = True
 if torch.cuda.is_available() and not opt.cuda:
-    print(
-        "WARNING: You have a CUDA device, so you should probably run with"
-        " --cuda"
+    loguru.logger.info(
+        "WARNING: You have a CUDA device, so you should probably run with" " --cuda"
     )
 # load data
 data = util.DATA_LOADER(opt)
-print("# of training samples: ", data.ntrain)
+loguru.logger.info("# of training samples: ", data.ntrain)
 logger = util.Logger(log_name)
 logger.write("Params : %s \n" % (vars(opt)))
 netG = model.Generator(opt)
@@ -41,8 +41,8 @@ netD = model.Discriminator_D1(opt)
 netE = model.Encoder(opt)
 cls = model.LinearClassifier(2048, opt.nclass_all)
 criterion = nn.CrossEntropyLoss()
-print(netG)
-print(netD)
+loguru.logger.info(netG)
+loguru.logger.info(netD)
 
 ###########
 # Init Tensors
@@ -83,15 +83,11 @@ if opt.cuda:
 
 
 def sample():
-    batch_feature, batch_label, batch_att = data.next_seen_batch(
-        opt.batch_size
-    )
+    batch_feature, batch_label, batch_att = data.next_seen_batch(opt.batch_size)
     input_res.copy_(batch_feature)
     input_att.copy_(batch_att)
     input_label.copy_(batch_label)
-    batch_feature, batch_label, batch_att = data.next_unseen_batch(
-        opt.batch_size
-    )
+    batch_feature, batch_label, batch_att = data.next_unseen_batch(opt.batch_size)
     input_res_unpair.copy_(batch_feature)
     input_att_unpair.copy_(batch_att)
     input_label_unpair.copy_(batch_label)
@@ -100,9 +96,7 @@ def sample():
 optimizer = optim.Adam(netE.parameters(), lr=opt.lr)
 optimizerD = optim.Adam(netD.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
-optimizerCLS = optim.SGD(
-    cls.parameters(), lr=0.005, momentum=0.9, weight_decay=1e-4
-)
+optimizerCLS = optim.SGD(cls.parameters(), lr=0.005, momentum=0.9, weight_decay=1e-4)
 input_all_attributes.copy_(data.attribute)
 
 best_gzsl_acc = 0
@@ -206,17 +200,13 @@ for epoch in range(0, opt.nepoch):
                 input_label_unpair,
                 use_cuda,
             )  # alpha = 1
-            inputs, targets_a, targets_b = map(
-                Variable, (inputs, targets_a, targets_b)
-            )
+            inputs, targets_a, targets_b = map(Variable, (inputs, targets_a, targets_b))
 
             noise_mix.normal_(0, 1)
             z = Variable(noise_mix)
             outputs = netG(z, c=inputs)
             outputs = cls(outputs)
-            loss = ambiguous_criterion(
-                criterion, outputs, targets_a, targets_b, lam
-            )
+            loss = ambiguous_criterion(criterion, outputs, targets_a, targets_b, lam)
             loss.backward()
             optimizerCLS.step()
             optimizerG.step()
@@ -300,7 +290,6 @@ for epoch in range(0, opt.nepoch):
     if best_zsl_acc < acc:
         best_zsl_acc = acc
         best_zsl_cls = zsl_cls.model.state_dict()
-    # print('ZSL: unseen accuracy=%.4f' % (acc))
     logger.write("ZSL: unseen accuracy=%.4f\n" % (acc))
     # reset G to training mode
     netG.train()
