@@ -46,7 +46,7 @@ if opt.cuda:
     netE.cuda()
 
 syn_feature, syn_label = generate_syn_feature(
-    netG, data.unseenclasses, data.attribute, 700, netF=None, netDec=None
+    netG, data.unseenclasses, data.attribute, 700#, netF=None, netDec=None
 )  # netDec
 # Generalized zero-shot learning
 if opt.gzsl:
