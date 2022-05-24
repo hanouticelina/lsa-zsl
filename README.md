@@ -82,13 +82,12 @@ SUN : make sun_ind
 The code is mostly inspired by the implementation of the paper "Latent Embedding Feedback and Discriminative Features for Zero-Shot Classification" available at : https://github.com/akshitac8/tfvaegan.
 
 ## Citation
-
-If you find this useful, please cite our work as follows:
+This work has been submitter to a scientific journal. Until its publication, if you find this useful, please cite our work as follows:
 
 ```
-@article{DBLP:journals/corr/abs-2201-01823,
-  author    = {Celina Hanouti and
-               Herv{\'{e}} Le Borgne},
+@article{hanouti2022lsa_zsl,
+  author    = {Hanouti, Celina and
+               Le Borgne, Herv{\'{e}} },
   title     = {Learning Semantic Ambiguities for Zero-Shot Learning},
   journal   = {CoRR},
   volume    = {abs/2201.01823},
@@ -96,8 +95,5 @@ If you find this useful, please cite our work as follows:
   url       = {https://arxiv.org/abs/2201.01823},
   eprinttype = {arXiv},
   eprint    = {2201.01823},
-  timestamp = {Mon, 10 Jan 2022 13:39:01 +0100},
-  biburl    = {https://dblp.org/rec/journals/corr/abs-2201-01823.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
