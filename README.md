@@ -3,7 +3,7 @@
 
 Authors : Celina Hanouti, Hervé Le Borgne
 
-Paper: https://arxiv.org/abs/2201.01823
+Pre-print: https://arxiv.org/abs/2201.01823
 
 Zero-shot learning (ZSL) aims at recognizing classes for which no visual sample is available at training time. 
 To address this issue, one can rely on a semantic description of each class. A typical ZSL model learns a mapping between the visual samples of seen classes and the corresponding semantic descriptions, in order to do the same on unseen classes at test time. State of the art approaches rely on generative models that synthesize visual features from the prototype of a class, such that a classifier can then be learned in a supervised manner. However, these approaches are usually biased towards seen classes whose visual instances are the only one that can be matched to a given class prototype.
@@ -79,7 +79,7 @@ SUN : make sun_ind
 
 ## Acknowledgments
 
-The code is mostly inspired by the implementation of the paper "Latent Embedding Feedback and Discriminative Features for Zero-Shot Classification" available at : https://github.com/akshitac8/tfvaegan.
+The code is built upon the implementation of the paper "Latent Embedding Feedback and Discriminative Features for Zero-Shot Classification" available at : https://github.com/akshitac8/tfvaegan.
 
 ## Citation
 This work has been submitter to a scientific journal. Until its publication, if you find this useful, please cite our work as follows:
